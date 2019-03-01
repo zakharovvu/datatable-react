@@ -1,0 +1,42 @@
+{
+  "name": "my-awesome-app",
+  "private": true,
+  "version": "1.0.0",
+  "description": "My awesome app",
+  "repository": "git@github.com:yourDomain/my-awesome-app.git",
+  "authors": [
+    "SamVimes01"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=development parcel src/index.html --open",
+    "prebuild": "rmdir dist /s /q",
+    "build": "cross-env NODE_ENV=production parcel build src/index.html --public-url https://--yourDomain--.github.io/my-awesome-app/",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
+    "test": "eslint src/ --ext .js --ext .jsx"
+  },
+  "browserslist": "> 0.25%, not dead",
+  "dependencies": {
+    "randomstring": "^1.1.5",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-proposal-class-properties": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-eslint": "^10.0.1",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.14.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.11.0",
+    "gh-pages": "^2.0.1",
+    "parcel-bundler": "^1.11.0",
+    "react-hot-loader": "^4.7.1"
+  }
+}
