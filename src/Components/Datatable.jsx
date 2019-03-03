@@ -23,7 +23,10 @@ export default class Datatable extends Component {
     currentQuery: '',
     sortKey: '',
     sortOrder: 'asc',
+    isEditing: false,
   }
+
+  editCache = '';
 
   getData() {
     const { renderedItems } = this.state;
@@ -178,8 +181,62 @@ export default class Datatable extends Component {
     this.setState({ currentPage: 1, perPage });
   }
 
+  cancelEdit = () => {
+    this.editCache = '';
+    this.setState({ isEditing: false });
+  }
+
+  saveEdit = (itemId, col) => {
+    this.setState((prevState) => {
+      const newRenderedItems = [...prevState.renderedItems];
+      const editableItemIndex = prevState.renderedItems.findIndex(el => el.id === itemId);
+
+      newRenderedItems[editableItemIndex][col] = this.editCache;
+
+      this.editCache = '';
+      return {
+        isEditing: false,
+        renderedItems: newRenderedItems,
+      };
+    });
+  }
+
+  changeEdit = ({ target }) => {
+    this.editCache = target.value;
+  }
+
+  editItem = (itemId, col, text) => {
+    if (this.state.isEditing) {
+      return;
+    }
+
+    this.editCache = text;
+
+    const innerJSX = (
+      <form className="edititem">
+        <button id="x" type="button" onClick={this.cancelEdit}>x</button>
+        <textarea
+          // eslint-disable-next-line jsx-a11y/no-autofocus
+          autoFocus
+          defaultValue={text}
+          onChange={this.changeEdit}
+          onKeyDown={event => (event.keyCode === 13 ? this.saveEdit(itemId, col) : null)}
+          onBlur={() => this.saveEdit(itemId, col)}
+        />
+      </form>
+    );
+
+    this.setState({
+      isEditing: {
+        id: itemId,
+        col,
+        innerJSX,
+      },
+    });
+  }
+
   _renderItem = (item) => {
-    const { columns } = this.state;
+    const { columns, isEditing } = this.state;
     return (
       <tr key={item.id}>
         <td>
@@ -189,10 +246,18 @@ export default class Datatable extends Component {
             onChange={() => this._selectItem(item.id)}
           />
         </td>
-        {Object.keys(columns).map((col, i) => (
+        {Object.keys(columns).map((col, i) => {
+          let value = item[col];
+          if (isEditing.id === item.id && isEditing.col === col) {
+            value = isEditing.innerJSX;
+          }
+          return (
           // eslint-disable-next-line react/no-array-index-key
-          <td key={i}>{item[col]}</td>
-        ))}
+            <td key={i} onDoubleClick={() => this.editItem(item.id, col, item[col])}>
+              {value}
+            </td>
+          );
+        })}
       </tr>
     );
   }

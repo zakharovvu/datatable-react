@@ -45,3 +45,18 @@ td {
   width: 900px;
   margin: 0 auto;
 }
+
+.edititem textarea {
+  font-size: 14px;
+  background: #fbffd3;
+  border: none;
+  width: 95%;
+  height: 65px;
+}
+
+.edititem #x {
+  padding: 0px 1px;
+  float: right;
+  width: 15px;
+  margin-right: 5px;
+}
