@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import Filter from './Filter';
 import Paginator from './Paginator';
+import PageContext from './PageContext';
 
 import '../styles/Datatable.css';
 
@@ -243,35 +244,32 @@ export default class Datatable extends Component {
     return (
       <>
         <Filter query={currentQuery} onChange={this.handleFilterChange} />
-        <Paginator
-          onPageChange={this.handlePageChange}
-          onPerPageChange={this.handlePerPageChange}
-          perPage={perPage}
-          currentPage={currentPage}
-          pagesCount={this.pagesCount()}
-          totalItems={renderedItems.length}
-          selector
-        />
+        <PageContext.Provider value={{
+          onPageChange: this.handlePageChange,
+          onPerPageChange: this.handlePerPageChange,
+          perPage,
+          currentPage,
+          pagesCount: this.pagesCount(),
+          totalItems: renderedItems.length,
+        }}
+        >
+          <Paginator selector />
 
-        <table className="tabledata">
-          {this._renderHeader()}
-          <tbody>
-            {visibleItems.map(item => this._renderItem(item))}
-          </tbody>
-        </table>
+          <table className="tabledata">
+            {this._renderHeader()}
+            <tbody>
+              {visibleItems.map(item => this._renderItem(item))}
+            </tbody>
+          </table>
 
-        <Paginator
-          onPageChange={this.handlePageChange}
-          perPage={perPage}
-          currentPage={currentPage}
-          pagesCount={this.pagesCount()}
-          totalItems={renderedItems.length}
-          info
-        />
+          <Paginator info />
+        </PageContext.Provider>
       </>
     );
   }
 }
+Datatable.contextType = PageContext;
+
 
 Datatable.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({
