@@ -1,27 +1,33 @@
 {
-  "name": "my-awesome-app",
+  "name": "datatble-react",
   "private": true,
   "version": "1.0.0",
   "description": "My awesome app",
-  "repository": "git@github.com:yourDomain/my-awesome-app.git",
+  "repository": "git@github.com:samvimes01/datatable-react.git",
   "authors": [
     "SamVimes01"
   ],
   "license": "MIT",
   "main": "src/index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development parcel src/index.html --open",
+    "start": "cross-env NODE_ENV=development parcel src/index.html -p 3000 --open",
     "prebuild": "rmdir dist /s /q",
-    "build": "cross-env NODE_ENV=production parcel build src/index.html --public-url https://--yourDomain--.github.io/my-awesome-app/",
+    "build": "cross-env NODE_ENV=production parcel build src/index.html --public-url https://samvimes01.github.io/datatable-react/",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "test": "eslint src/ --ext .js --ext .jsx"
   },
   "browserslist": "> 0.25%, not dead",
   "dependencies": {
-    "randomstring": "^1.1.5",
+    "@hot-loader/react-dom": "^16.8.3",
+    "lodash.debounce": "^4.0.8",
+    "prop-types": "^15.7.2",
     "react": "^16.8.3",
-    "react-dom": "^16.8.3"
+    "react-dom": "^16.8.3",
+    "react-hot-loader": "^4.7.1"
+  },
+  "alias": {
+    "react-dom": "@hot-loader/react-dom"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
@@ -29,6 +35,7 @@
     "@babel/preset-env": "^7.3.4",
     "@babel/preset-react": "^7.0.0",
     "babel-eslint": "^10.0.1",
+    "babel-plugin-react-hot-loader": "^3.0.0-beta.6",
     "cross-env": "^5.2.0",
     "eslint": "^5.14.1",
     "eslint-config-airbnb": "^17.1.0",
@@ -36,7 +43,6 @@
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.11.0",
     "gh-pages": "^2.0.1",
-    "parcel-bundler": "^1.11.0",
-    "react-hot-loader": "^4.7.1"
+    "parcel-bundler": "^1.11.0"
   }
 }
